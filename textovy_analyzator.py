@@ -83,6 +83,7 @@ words = texts_by_number[selected_text].split()
 word_count = len(words)
 
 centered_message = message.center(separator_length)
+#separator for better readibility
 print(f"{separator}\n{centered_message}\n{separator}")
 
 print(f"There are {word_count} words in the selected text.")
@@ -122,7 +123,7 @@ for word in words:
     else:
         word_lengths[length] = 1
 
-sorted_lengths = sorted(word_lengths.items())
+sorted_lengths = sorted(word_lengths.items()) #creates list of tuples for the later usage in graph
 
 print("Word lengths and their count:")
 for length, count in sorted_lengths:
