@@ -42,14 +42,16 @@ registered_users = {"bob": "123",
                     "ann": "pass123", 
                     "mike": "password123", 
                     "liz": "pass123"}
-usernames = list(registered_users.keys())
 
 user = input("Username:\n")
 password = input("Password:\n")
 
-if user in usernames: #checks if user is saved in database
+if user in registered_users.keys(): #checks if user is saved in database
     if password == registered_users[user]:
-        centered_message = f"Welcome! you can start analyzing your text {user}.".center(separator_length)
+        centered_message = (
+            f"Welcome! you can start analyzing your text {user}."
+            .center(separator_length)
+        )
         #separator for better readibility
         print(f"{separator}\n{centered_message}\n{separator}")
     else:
@@ -60,21 +62,30 @@ else:
     quit()
 
 texts_by_number = {}
-for index, value in enumerate(TEXTS): #converts list of texts to dictionary for later usage
+for index, value in enumerate(TEXTS): 
+    # converts list of texts to dictionary for later usage
     texts_by_number[index + 1] = value
 
-texts_count = len(TEXTS) #counts number of provided texts in the list for later usage
-selected_text = input(f"Enter a number of the text you would like to analyze (1 - {texts_count}): ")
+texts_count = len(TEXTS) 
+    # counts number of provided texts in the list for later usage
+selected_text = input(
+    f"Enter a number of the text you would like to analyze "
+    f"(1 - {texts_count}): "
+    )
 
-if not selected_text.isdigit(): #checks if user inserted integer which is required
+if not selected_text.isdigit(): 
+    # checks if user inserted integer which is required
     print(f"You must insert a number. Please select (1 - {texts_count}).")
     quit()
 else:
     selected_text = int(selected_text)
     print("Selected text:", selected_text)
 
-    if selected_text not in texts_by_number: #checks if the selected number of text corresponds with the number of "uploaded" texts
-        print(f"This number is not included in your list, please select (1 - {texts_count}).")
+    if selected_text not in texts_by_number: 
+        # checks if the selected number of text corresponds with 
+        # the number of "uploaded" texts.
+        print(f"This number is not included in your list, "
+              f"please select (1 - {texts_count}).")
         quit()
     else:
         pass
@@ -83,7 +94,6 @@ words = texts_by_number[selected_text].split()
 word_count = len(words)
 
 centered_message = message.center(separator_length)
-#separator for better readibility
 print(f"{separator}\n{centered_message}\n{separator}")
 
 print(f"There are {word_count} words in the selected text.")
@@ -123,13 +133,21 @@ for word in words:
     else:
         word_lengths[length] = 1
 
-sorted_lengths = sorted(word_lengths.items()) #creates list of tuples for the later usage in graph
+sorted_lengths = sorted(word_lengths.items())
 
 print("Word lengths and their count:")
+
+pipe_symbol = " |"
+
 for length, count in sorted_lengths:
-    print(f"Length {length} | {'*' * count} {count} words")
+    if len(str(length)) == 2:
+        # If the length is two digit number is removes one space in pipe_symbol 
+        # string to ensure that the separtor in the graph is centered.
+        pipe_symbol = "|"
+    print(f"Length {length} {pipe_symbol} {'*' * count} {count} "
+          f"{'word' if count == 1 else 'words'}"
+          )
 
 centered_message = goodbye_message.center(separator_length)
 
 print(f"{separator}\n{centered_message}\n{separator}")
-
